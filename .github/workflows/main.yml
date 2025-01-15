@@ -21,14 +21,14 @@ jobs:
 
     - name: Build and push Docker image
       run: |
-        docker build -t your-dockerhub-username/node-docker-app:latest .
-        docker push your-dockerhub-username/node-docker-app:latest
+        docker build -t abhishekmishra6121/node-docker-app:latest .
+        docker push abhishekmishra6121/node-docker-app:latest
 
     - name: Deploy to EC2
       run: |
-        ssh -o StrictHostKeyChecking=no ubuntu@13.203.40.10 <<EOF
-        docker pull your-dockerhub-username/node-docker-app:latest
+        ssh -o StrictHostKeyChecking=no ubuntu@13.203.159.115 <<EOF
+        docker pull abhishekmishra6121/node-docker-app:latest
         docker stop node-app || true
         docker rm node-app || true
-        docker run -d --name node-app -p 80:3000 your-dockerhub-username/node-docker-app:latest
+        docker run -d --name node-app -p 80:3000 abhishekmishra6121/node-docker-app:latest
         EOF
