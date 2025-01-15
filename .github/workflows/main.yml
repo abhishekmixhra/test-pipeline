@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    # Step 1: Checkout code
+    # Step 1: Checkout the code
     - name: Checkout code
       uses: actions/checkout@v3 
 
@@ -30,14 +30,16 @@ jobs:
     # Step 4: Deploy to EC2
     - name: Deploy to EC2
       env:
-        SSH_PRIVATE_KEY: ${{ secrets.EC2_PRIVATE_KEY }}
+        EC2_PRIVATE_KEY: ${{ secrets.EC2_PRIVATE_KEY }}
       run: |
-        echo "${EC2_PRIVATE_KEY}" > key.pem
+        # Save the private key to a file and set the correct permissions
+        echo "$EC2_PRIVATE_KEY" | tr -d '\r' > key.pem
         chmod 600 key.pem
-        ssh -i key.pem -o StrictHostKeyChecking=no ubuntu@13.203.40.10 <<EOF
+
+        # Connect to the EC2 instance and deploy the Docker container
+        ssh -i key.pem -o StrictHostKeyChecking=no ubuntu@13.203.159.115 <<EOF
         docker pull abhishekmishra6121/node-docker-app:latest
         docker stop node-app || true
         docker rm node-app || true
         docker run -d --name node-app -p 80:3000 abhishekmishra6121/node-docker-app:latest
         EOF
-      timeout-minutes: 5
