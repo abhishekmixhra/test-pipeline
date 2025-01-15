@@ -26,7 +26,7 @@ jobs:
 
     - name: Deploy to EC2
       run: |
-        ssh -o StrictHostKeyChecking=no ubuntu@13.203.159.115 <<EOF
+        ssh -o StrictHostKeyChecking=no -T ubuntu@13.203.159.115 <<EOF
         docker pull abhishekmishra6121/node-docker-app:latest
         docker stop node-app || true
         docker rm node-app || true
