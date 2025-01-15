@@ -37,7 +37,7 @@ jobs:
         chmod 600 key.pem
 
         # Connect to the EC2 instance and deploy the Docker container
-        ssh -i key.pem -o StrictHostKeyChecking=no ubuntu@13.203.159.115 <<EOF
+        ssh -i key.pem -o StrictHostKeyChecking=no ubuntu@13.203.40.10 <<EOF
         docker pull abhishekmishra6121/node-docker-app:latest
         docker stop node-app || true
         docker rm node-app || true
